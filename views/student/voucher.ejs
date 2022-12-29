@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table, tr, th, td {
+      border: 1px solid black;
+    }
+    ul li {
+      list-style-type: none;
+      margin-left: -25px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div>
+      <img src="<%= qrcode %>">
+    </div>
+    <ul>
+      <li>Nama: <%= data.fullName %></li>
+      <li>Kelas: <%= data.class %></li>
+      <li>Sekolah: <%= data.schools %></li>
+      <li style="margin-top: 10px;">
+        <a href="<%= qrcode %>" download="voucher-beasiswa-<%= data.fullName.replace(/\s+/g, '-').toLowerCase() %>"><button>Unduh Voucher</button></a>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
