@@ -12,6 +12,21 @@
   </style>
 </head>
 <body>
+  <div style="margin-bottom: 10px">
+    <form action="/students/uploads" method="POST" enctype="multipart/form-data" style="display: inline;">  
+      <input type="file" name="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+      <button type="submit">upload</button>
+    </form>
+    <a href="../../example.xlsx" download><button type="button">Download Template</button></a>
+  </div>
+  <div style="margin-bottom: 10px">
+    <form action="/students" method="POST">
+      <input type="text" name="fullName" placeholder="fullname in here..">
+      <input type="text" name="schools" placeholder="schools in here..">
+      <input type="text" name="class" placeholder="class in here..">
+      <button type="submit">save</button>
+    </form>
+  </div>
   <div>
     <table>
       <tr>
@@ -29,8 +44,9 @@
         <td><%= da.class %></td>
         <td>
           <a href="/students/<%= da.id %>"><button>detail</button></a>
-          <button>edit</button>
-          <button>hapus</button>
+          <form style="display: inline;" action="/students/delete/<%= da.id %>?_method=DELETE" method="POST">
+            <button type="submit">hapus</button>
+          </form>
         </td>
       </tr>
       <% }); %>

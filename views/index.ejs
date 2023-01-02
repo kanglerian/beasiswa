@@ -5,35 +5,57 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Scan Beasiswa</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .flex-container {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      border-radius: 15px;
+      box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.10);
+    }
+  </style>
 </head>
 
 <body>
-  <div style="width: 500px" id="reader"></div>
-  <div>
-    <form action="/students/check" method="POST" id="form">
-      <input type="hidden" name="code" placeholder="Kode beasiswa" id="result">
-    </form>
+  <div class="flex-container">
+    <div>
+      <video id="qr-code" height="450px"></video>
+      <form action="/scholarship" method="POST" id="form">
+        <input type="hidden" name="code" id="result">
+      </form>
+    </div>
   </div>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-  <script>
-    const onScanSuccess = (decodedText, decodedResult) => {
-      let result = document.getElementById('result').value = decodedText;
-      document.getElementById('form').submit();
-    }
-    const onScanFailure = (error) => {
-      console.warn(`Code scan error = ${error}`);
-    }
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader", {
-        fps: 10,
-        qrbox: {
-          width: 200,
-          height: 200
+  <script type="module">
+    import QrScanner from '../javascripts/qr-scanner.min.js';
+    const videoElem = document.getElementById('qr-code');
+    const resultText = document.getElementById('result');
+    const qrScanner = new QrScanner(
+      videoElem,
+      result => {
+        if (result != null) {
+          resultText.value = result.data;
+          document.getElementById('form').submit();
         }
+      }, {
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+        maxScansPerSecond: 5
       },
-      false);
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    );
+    qrScanner.start();
   </script>
 </body>
 
